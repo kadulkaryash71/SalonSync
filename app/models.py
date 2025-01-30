@@ -13,7 +13,6 @@ class Staff(models.Model):
     name = models.CharField("Staff Name", max_length=255, default="NULL", blank=False, null=False)
     contact = models.IntegerField("Contact Number", blank=True, null=True)
     salary = models.IntegerField("Salary", blank=True, null=True)
-    password= models.CharField("Password", max_length=255, default="NULL", blank=False, null=False)
     date_created = models.DateTimeField("Date Joined", auto_now_add=True)
 
     def __str__(self):
