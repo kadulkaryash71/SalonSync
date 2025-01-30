@@ -1,4 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+   username = models.CharField(max_length = 50, blank = True, null = True, unique = True)
+   name = models.CharField(max_length = 5)
+   phone_no = models.CharField(max_length = 10)
+   USERNAME_FIELD = 'username'
+   REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+   def __str__(self):
+       return "{}".format(self.username)
 
 # Create your models here.
 class Service(models.Model):
@@ -10,9 +20,11 @@ class Service(models.Model):
         return self.service_name
 
 class Staff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="staff")
     name = models.CharField("Staff Name", max_length=255, default="NULL", blank=False, null=False)
     contact = models.IntegerField("Contact Number", blank=True, null=True)
     salary = models.IntegerField("Salary", blank=True, null=True)
+    password= models.CharField("Password", max_length=255, default="NULL", blank=False, null=False)
     date_created = models.DateTimeField("Date Joined", auto_now_add=True)
 
     def __str__(self):
