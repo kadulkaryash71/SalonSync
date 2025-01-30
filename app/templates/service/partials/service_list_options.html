@@ -1,0 +1,15 @@
+<div class="container-fluid m-0 p-0">
+    <label for="" class="form-label">Select <b><u><em>services</em></u></b> opted by customer</label>
+    <div class="row mb-3 border border border-1 border-primary-subtle shadow-sm rounded mx-1 p-3" style="max-height: 30vh;">
+        {% for service in services %}
+            <div class="col-md-3">
+                <input type="checkbox" class="form-check-input" id="service-{{ service.id }}" name="services" value="{{ service.id }}">
+                <label for="service-{{ service.id }}" class="ms-1">{{ service.service_name }}</label>
+                <input type="hidden" id="service-{{ service.id }}-price" value="{{ service.rate }}">
+            </div>
+        {% endfor %}
+        <div class="col-md-3">
+            <a href="{% url 'service_list' %}" class=""><i class="bi bi-plus"></i>Add another service</a>
+        </div>
+    </div>
+</div>

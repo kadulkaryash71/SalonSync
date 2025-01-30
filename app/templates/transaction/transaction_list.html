@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="container-sm mt-5 p-5 border border-2 border-primary-subtle rounded-4 shadow d-flex flex-column justify-content-center align-items-center">
+
+        <h2 class="h4 px-3 py-2 mb-4 form-header border-start border-4 border-primary align-self-start">Your Services</h2>
+        <table class="table table-responsive table-hover text-center" style="max-height: 50vh; overflow-y: auto;">
+            <thead class="table-success">
+                <th>#</th>
+                <th>Repeat Customer?</th>
+                <th>Serving Staff</th>
+                <th>Services</th>
+                <th>Total Amount (in ₹)</th>
+                <th></th>
+            </thead>
+            <tbody class="align-items-center">
+                {% if transactions %}
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.id }}</td>
+                        <td>{{ transaction.is_repeat_customer }}</td>
+                        <td>{{ transaction.serving_staff }}</td>
+                        <td>
+                            {% for service in transaction.services.all %}
+                                <span class="badge rounded-pill bg-success">
+                                    {{ service.service_name }} (₹{{ service.rate }})
+                                </span>
+                            {% empty %}
+                                <span class="text-muted">No services selected</span>
+                            {% endfor %}
+                        </td>
+                        <td class="tcost">{{ transaction.transaction_cost }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center fst-italic">No transactions added today</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="4" class="fst-italic">Total for the day</td>
+                    <td id="total-collection" class="fw-bold">00.00</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'new_transaction' %}" class="d-flex justify-content-center btn btn-primary">
+            <i class="bi bi-plus-circle"></i> &nbsp;Add a New Transaction
+        </a>
+    </div>
+
+{% endblock main %}
+
+{% block scripts %}
+    <script>
+        document.getElementById('total-collection').innerText = Array.from(
+            document.querySelectorAll('.tcost')).reduce(
+                (acc, curr) => acc + parseFloat(curr.innerText), 0
+            ).toFixed(2);
+    </script>
+{% endblock scripts %}

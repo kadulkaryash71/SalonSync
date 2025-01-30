@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+
+    <form action="" method="POST" class="container-sm mt-5 m-auto p-5 border border-2 border-primary-subtle rounded-4 shadow">
+        {% csrf_token %}
+        <h2 class="h4 px-3 py-2 mb-3 form-header border-start border-4 border-primary">Diary Entry</h2>
+        
+        <!-- Repeat Customer Switch -->
+        <div class="mb-3 form-check form-switch">
+            {{ form.is_repeat_customer }}
+            <label class="form-check-label" for="{{ form.is_repeat_customer.id_for_label }}">Is she a Repeat Customer?</label>
+        </div>
+        
+        <!-- Customer Name and Contact -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="{{ form.customer_name.id_for_label }}" class="form-label">Customer Name <em>(optional)</em></label>
+                {{ form.customer_name }}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.contact.id_for_label }}" class="form-label">Contact Number <em>(optional)</em></label>
+                {{ form.contact }}
+            </div>
+        </div>
+        
+        <!-- Serving Staff Dropdown -->
+        <div class="row mb-3">
+            <label for="{{ form.serving_staff.id_for_label }}" class="col-md-2 col-form-label">Serving Staff</label>
+            <div class="col-md-10">
+                {{ form.serving_staff }}
+            </div>
+        </div>
+        
+        <!-- Services Checkboxes -->
+        <div class="container-fluid m-0 p-0">
+            <label for="{{ form.services.id_for_label }}" class="form-label">Select <b><u><em>services</em></u></b> opted by customer</label>
+            <div class="row mb-3 border border border-1 border-primary-subtle shadow-sm rounded mx-1 p-3" style="max-height: 30vh; overflow-y: auto;">
+                {% for serviceCheck in form.services %}
+                    <div class="col-md-3">
+                        {{ serviceCheck }}
+                        <label for="{{ serviceCheck.id_for_label }}" class="ms-2">{{ serviceCheck.label }}</label>
+                        <!-- <input type="hidden" id="service-{{ serviceCheck }}-price" value="{{ service.rate }}"> -->
+                    </div>
+                {% endfor %}
+                <div class="col-md-12 text-end" style="position: sticky; bottom: 0; background: white; padding: 5px;">
+                    <a href="{% url 'service_list' %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-plus"></i> Add another service
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Total Amount and Transaction Amount -->
+        <div class="row mb-3">
+            <label for="{{ form.transaction_cost.id_for_label }}" class="col-md-2 col-form-label">Amount Received (in ₹)</label>
+            <div class="col-md-10">
+                {{ form.transaction_cost }}
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="d-flex justify-content-center btn btn-primary"><i class="bi bi-plus"></i> Add Transaction</button>
+        </div>
+    </form>
+{% endblock main %}
+
+{% block scripts %}
+    <!-- <script>
+        document.querySelectorAll('input[name="services"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                let total = 0;
+                document.querySelectorAll('input[name="services"]:checked').forEach(checked => {
+                    const price = parseFloat(document.getElementById(`service-${checked.value}-price`).value);
+                    total += price;
+                });
+                document.getElementById('total-amount').value = total.toFixed(2);
+            });
+        });
+    </script> -->
+{% endblock scripts %}

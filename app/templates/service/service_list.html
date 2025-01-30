@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="container-sm mt-5 p-5 border border-2 border-primary-subtle rounded-4 shadow d-flex flex-column justify-content-center align-items-center">
+
+        <h2 class="h4 px-3 py-2 mb-4 form-header border-start border-4 border-primary align-self-start">Your Services</h2>
+        <table class="table table-responsive table-hover" style="max-height: 50vh; overflow-y: auto;">
+            <thead class="table-success">
+                <th>#</th>
+                <th>Service</th>
+                <th>Rate (in ₹)</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% if services %}
+                    {% for service in services %}
+                    <tr>
+                        <td>{{ service.id }}</td>
+                        <td>{{ service.service_name }}</td>
+                        <td>{{ service.rate }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center fst-italic">No services added yet</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <form action="{% url 'add_service' %}" method="POST">
+                        {% csrf_token %}
+                        <td></td>
+                        <td>{{ form.service_name }}</td>
+                        <td>
+                            {{ form.rate }}
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary rounded-circle" data-bs-toggle="tooltip" data-bs-title="+ Add New Service">
+                                <i class="bi bi-plus-lg fs-5"></i>
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'add_service' %}" class="d-flex justify-content-center btn btn-primary">
+            <i class="bi bi-plus-circle"></i> &nbsp;Add a New Service
+        </a>
+    </div>
+
+{% endblock main %}

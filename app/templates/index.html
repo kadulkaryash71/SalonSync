@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+    <div class="container-sm h-100 m-0 p-0">
+        <div class="row m-0 align-items-center" style="height: 100vh;">
+            <div class="col-md-6 m-0 p-0">
+                <img src="{% static 'img/salon-hero.jpg' %}" class="img-fluid" alt="Hero Image">
+            </div>
+            <div class="col-md-6 ps-5 d-flex flex-column justify-content-center align-items-start">
+                <h1 class="display-6">
+                    Let's Make You Beautiful
+                </h1>
+                <p class="lead">
+                    We are a beauty parlour that offers a wide range of services to make you look and feel beautiful.
+                </p>
+                <div class="row w-50 gx-2">
+                    <div class="col-md-6">
+                        <a href="{% url 'service_list' %}" class="btn btn-primary"><i class="bi bi-card-list"></i> My Services</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'new_transaction' %}" class="btn btn-success"><i class="bi bi-credit-card-2-back"></i> Transactions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
